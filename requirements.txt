@@ -1,0 +1,10 @@
+requests
+pandas
+numpy
+tzwhere
+pysolar
+darksky
+pytz 
+json
+urllib
+yaml
