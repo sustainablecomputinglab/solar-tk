@@ -1,4 +1,4 @@
-
+# I am looking for help in fixing some of the issues with Solar-TK, please reach out to me (at nbashir@umass.edu) if you want to contribute to the respository. 
 
 # Solar-TK: A Data-driven Toolkit for Solar Performance Modeling and Forecasting
 
