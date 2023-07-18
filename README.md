@@ -1,5 +1,3 @@
-# I am looking for help in fixing some of the issues with Solar-TK, please reach out to me (at nbashir@umass.edu) if you want to contribute to the respository. 
-
 # Solar-TK: A Data-driven Toolkit for Solar Performance Modeling and Forecasting
 
 Solar-TK is a data-driven toolkit for solar performance modeling and forecasting that is simple, extensible,and publicly accessible. Solar-TK’s simple approach models and forecasts a site’s solar output given only its location and a small amount of historical generation data. Solar- TK’s extensible design includes a small collection of independent modules that connect together to implement basic modeling and forecasting, while also enabling users to implement new energy analytics. 
