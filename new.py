@@ -4,7 +4,6 @@ import urllib.parse
 import time
 import config
 
-EMAIL = "wole359@gmail.com"
 BASE_URL = "https://developer.nrel.gov/api/nsrdb/v2/solar/psm3-5min-download.json?"
 POINTS = [
 '2277372'
@@ -17,7 +16,7 @@ def main():
         'to_utc': 'false',
         
         'api_key': config.API_KEY,
-        'email': EMAIL,
+        'email': config.EMAIL,
     }
     for name in ['2021']:
         print(f"Processing name: {name}")
