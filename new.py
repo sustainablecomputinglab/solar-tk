@@ -2,25 +2,24 @@ import requests
 import pandas as pd
 import urllib.parse
 import time
+import config
 
-API_KEY = "GYBF1zDpAFqOwBM1j5B3dDf951XUn1dGg2P7oren"
 EMAIL = "wole359@gmail.com"
-BASE_URL = "https://developer.nrel.gov/api/nsrdb/v2/solar/psm3-2-2-download.json?"
+BASE_URL = "https://developer.nrel.gov/api/nsrdb/v2/solar/psm3-5min-download.json?"
 POINTS = [
-'1338345'
+'2277372'
 ]
 
 def main():
     input_data = {
-        'attributes': 'air_temperature,clearsky_dhi,clearsky_dni,solar_zenith_angle,surface_albedo,ghi',
+        'attributes': 'dhi,dni,dew_point,surface_albedo,wind_speed,relative_humidity,air_temperature,surface_pressure,solar_zenith_angle,clearsky_ghi,ghi',
         'interval': '60',
         'to_utc': 'false',
-        'include_leap_day': 'true',
         
-        'api_key': API_KEY,
+        'api_key': config.API_KEY,
         'email': EMAIL,
     }
-    for name in ['2021','2020','2019','2018']:
+    for name in ['2021']:
         print(f"Processing name: {name}")
         for id, location_ids in enumerate(POINTS):
             input_data['names'] = [name]
@@ -37,7 +36,7 @@ def main():
                 # data.to_csv('SingleBigDataPoint.csv')
             else:
                 headers = {
-                  'x-api-key': API_KEY
+                  'x-api-key': config.API_KEY
                 }
                 data = get_response_json_and_handle_errors(requests.post(BASE_URL, input_data, headers=headers))
                 download_url = data['outputs']['downloadUrl']
