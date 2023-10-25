@@ -4,12 +4,6 @@ import urllib.parse
 import time
 import config
 
-import requests
-import pandas as pd
-import urllib.parse
-import time
-import config
-
 BASE_URL = "https://developer.nrel.gov/api/nsrdb/v2/solar/psm3-5min-download.json?"
 POINTS = ['2277372']
 
@@ -29,7 +23,7 @@ def main():
     # Get user input for latitude and longitude
     latitude = float(input("Enter the latitude: "))
     longitude = float(input("Enter the longitude: "))
-    
+
     input_data = {
         'attributes': ','.join(data_types),
         'interval': interval,

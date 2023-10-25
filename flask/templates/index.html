@@ -1,0 +1,126 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Solar Data Request</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            padding: 1rem;
+        }
+
+        h1 {
+            margin: 0;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 2rem auto;
+            background-color: #fff;
+            padding: 2rem;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: bold;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 0.5rem;
+            margin-bottom: 1rem;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+        }
+
+        input[type="submit"] {
+            background-color: #333;
+            color: #fff;
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #555;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>NSRDB-Powered Solar Data Request</h1>
+    </header>
+    <div class="container">
+        <form action="/run_script" method="POST">
+
+            <label for="email">Enter your email:</label>
+            <input type="email" id="email" name="email" required><br>
+
+            <label for="api_key">Enter your NSRDB API key:</label>
+            <input type="text" id="api_key" name="api_key" required><br>
+
+            <label for="years">Select year(s):</label>
+            <select id="years" name="years" multiple required>
+                <option value="2018">2018</option>
+                <option value="2019">2019</option>
+                <option value="2020">2020</option>
+                <option value="2021">2021</option>
+            </select><br>
+                
+            
+            <label for="data_types">Select data type(s):</label>
+            <select id="data_types" name="data_types" multiple required>
+                <option value="dhi">DHI</option>
+                <option value="dni">DNI</option>
+                <option value="ghi">GHI</option>
+                <option value="clearsky dhi">Clearsky DHI</option>
+                <option value="Clearsky DNI">Clearsky DNI</option>
+                <option value="Clearsky GHI">Clearsky GHI</option>
+                <option value="Cloud Type">Cloud Type</option>
+                <option value="Dew Point">Dew Point</option>
+                <option value="Solar Zenith Angle">Solar Zenith Angle</option>
+                <option value="Fill Flag">Fill Flag</option>
+                <option value="Surface Albedo">Surface Albedo</option>
+                <option value="Wind Speed">Wind Speed</option>
+                <option value="Precipitable Water">Precipitable Water</option>
+                <option value="Wind Direction">Wind Direction</option>
+                <option value="Relative Humidity">Relative Humidity</option>
+                <option value="Temperature">Temperature</option>
+                <option value="Pressure">Pressure</option>
+            </select><br>
+
+
+            <label for="interval">Select data interval:</label>
+            <select id="interval" name="interval" required>
+                <option value="5">5 minutes</option>
+                <option value="15">15 minutes</option>
+                <option value="30">30 minutes</option>
+                <option value="60">60 minutes</option>
+            </select><br>
+
+            <label for="latitude">Enter the latitude:</label>
+            <input type="text" id="latitude" name="latitude" required><br>
+
+            <label for="longitude">Enter the longitude:</label>
+            <input type="text" id="longitude" name="longitude" required><br>
+
+            <input type="submit" value="Submit">
+        </form>
+    </div>
+</body>
+</html>
