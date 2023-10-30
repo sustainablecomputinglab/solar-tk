@@ -9,9 +9,23 @@ import pandas as pd
 import urllib.parse
 import time
 import config
+import shutil
+import os
+import numpy as np
+#ghi dni and solar zenith  and temperature are in requests 
 
 BASE_URL = "https://developer.nrel.gov/api/nsrdb/v2/solar/psm3-5min-download.json?"
 POINTS = ['2277372']
+TEMP_DIR = 'temp_data'  # Defined a temporary directory
+
+if not os.path.exists(TEMP_DIR):
+    os.makedirs(TEMP_DIR)  # Create the temporary directory if it doesn't exist
+
+
+def cleanup():
+    """Delete temporary files after processing."""
+    shutil.rmtree(TEMP_DIR)
+    print("Temporary files have been cleaned up.")
 
 def main():
     # Get user input for the years of data
@@ -42,12 +56,28 @@ def main():
     for year in years.split(','):
         print(f"Processing year: {year}")
         for id, location_ids in enumerate(POINTS):
-            input_data['names'] = [year]
+            input_data['names'] = [int(year)]
             print(f'Making request for point group {id + 1} of {len(POINTS)}...')
 
             if '.csv' in BASE_URL:
                 url = BASE_URL + urllib.parse.urlencode(data, True)
                 data = pd.read_csv(url)
+
+                # Compute Solar Elevation Angle
+                data['Solar Elevation Angle'] = 90 - data['solar_zenith']
+
+                # Compute GTI using the DNI and DHI irradiance values
+                data['GTI'] = data['DNI'] * np.sin(np.radians(data['Solar Elevation Angle'])) + data['DHI']
+
+                # Hardcoded values
+                PANEL_TILT = 34.5  # degrees
+                dc_system_size = 25.0  # kW
+                INVERTER_EFFICIENCY = 0.95
+                SYSTEM_LOSS = 0.14
+
+                # Convert GTI to kW and apply the system size, loss, and inverter efficiency factors
+                data['Solar Generation (kW)'] = dc_system_size * (data['GTI'] / 1000) * (1 - SYSTEM_LOSS) * INVERTER_EFFICIENCY
+
                 print(f'Response data (you should replace this print statement with your processing): {data}')
             else:
                 headers = {
@@ -62,12 +92,15 @@ def main():
                 time.sleep(1)
             print(f'Processed')
 
+        cleanup()
+
+
 def get_response_json_and_handle_errors(response: requests.Response) -> dict:
     if response.status_code != 200:
         print(f"An error has occurred with the server or the request. The request response code/status: {response.status_code} {response.reason}")
         print(f"The response body: {response.text}")
         exit(1)
-
+    
     try:
         response_json = response.json()
     except:
