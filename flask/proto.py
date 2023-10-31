@@ -1,8 +1,6 @@
-from flask import Flask, request, render_template, jsonify
+from flask import Flask, request, render_template
 import requests
 import pandas as pd
-import urllib.parse
-import time
 import math
 import os
 import numpy as np
@@ -133,6 +131,9 @@ def execute_script():
         attributes = ""
         for data_type in data_types:
             attributes += data_type + ","
+
+        # add ghi, dni, solar zenith angle, and temperature to attributes
+        attributes += "ghi,dni,solar_zenith_angle,air_temperature"
         
         for year in years:
             year = str(year)
