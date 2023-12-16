@@ -23,28 +23,31 @@
 
 <body class="bg-gray-200 font-sans">
     <header class="bg-gray-800 text-white text-center py-4">
+        <link rel="icon" href="/assets/images/solar.png" type="image/x-icon">
         <h1 class="text-2xl font-semibold">NSRDB-Powered Solar Data Request</h1>
     </header>
 
+
     <div class="container mx-auto mt-8 p-4 bg-white rounded-lg shadow-lg">
         <form action="/run_script" method="POST">
-            <div class="mb-4">
-                <label for="email" class="block font-semibold text-gray-600">Enter your email:</label>
-                <input type="email" id="email" name="email" class="w-full px-3 py-2 border rounded focus:outline-none focus:ring-indigo-500 focus:border-indigo-500" required>
-            </div>
 
             <div class="mb-4">
-                <label for="api_key" class="block font-semibold text-gray-600">Enter your NSRDB API key:</label>
-                <input type="text" id="api_key" name="api_key" class="w-full px-3 py-2 border rounded shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" required>
+                <label for="data_type" class="block font-semibold text-gray-600">Select data type:</label>
+                <select id="data_type" name="data_type"
+                    class="w-full px-3 py-2 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                    {% for dataset in dataset_options %}
+                        <option value="{{ dataset }}">{{ dataset }}</option>
+                    {% endfor %}
+                </select>
             </div>
+            
 
             <div class="mb-4">
                 <label for="years" class="block font-semibold text-gray-600">Select year(s):</label>
                 <select id="years" name="years" class="w-full px-3 py-2 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" multiple required>
-                    <option value="2018">2018</option>
-                    <option value="2019">2019</option>
-                    <option value="2020">2020</option>
-                    <option value="2021">2021</option>
+                    {% for year in years %}
+                        <option value="{{ year }}">{{ year }}</option>
+                    {% endfor %}
                 </select>
             </div>
 
@@ -78,21 +81,10 @@
             <div class="mb-4">
                 <label for="interval" class="block font-semibold text-gray-600">Select data interval:</label>
                 <select id="interval" name="interval" class="w-full px-3 py-2 border rounded focus:outline-none focus:ring-indigo-500 focus:border-indigo-500" required>
-                    <option value="5">5 minutes</option>
-                    <option value="15">15 minutes</option>
-                    <option value="30">30 minutes</option>
-                    <option value="60">60 minutes</option>
+                    {% for interval in intervals %}
+                        <option value="{{ interval }}">{{ interval }}</option>
+                    {% endfor %}
                 </select>
-            </div>
-
-            <div class="mb-4">
-                <label for="latitude" class="block font-semibold text-gray-600">Enter the latitude:</label>
-                <input type="text" id="latitude" name="latitude" class="w-full px-3 py-2 border rounded focus:outline-none focus:ring-indigo-500 focus:border-indigo-500" required>
-            </div>
-
-            <div class="mb-4">
-                <label for="longitude" class="block font-semibold text-gray-600">Enter the longitude:</label>
-                <input type="text" id="longitude" name="longitude" class="w-full px-3 py-2 border rounded focus:outline-none focus:ring-indigo-500 focus:border-indigo-500" required>
             </div>
 
             <div class="mt-4">
@@ -100,6 +92,9 @@
             </div>
         </form>
     </div>
+
+
+
 
     <footer class="bg-gray-800 text-white py-4 text-center">
         <p>&copy; 2023 SOLAR-TK. All rights reserved.</p>

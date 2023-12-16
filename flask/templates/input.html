@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/habibmhamadi/multi-select-tag/dist/css/multi-select-tag.css">
+    <script src="https://cdn.jsdelivr.net/gh/habibmhamadi/multi-select-tag/dist/js/multi-select-tag.js"></script>
+    
+    
+    <title>Solar Data Request</title>
+    <style>
+        @import url('https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css');
+        .custom-heading {
+            font-size: 24px;
+            color: #333;
+        }
+
+        .bg-blue-500 {
+            background-color: #3498db;
+        }
+    </style>
+</head>
+
+<body class="bg-gray-200 font-sans">
+    <header class="bg-gray-800 text-white text-center py-4">
+    <link rel="icon" href="/assets/images/solar.png" type="image/x-icon">
+    <h1 class="text-2xl font-semibold">NSRDB-Powered Solar Data Request</h1>
+    </header>
+
+    <div class="container mx-auto mt-8 p-4 bg-white rounded-lg shadow-lg">
+        <form action="/get_available_datasets" method="POST">
+            <div class="mb-4">
+                <label for="email" class="block font-semibold text-gray-600">Enter your email:</label>
+                <input type="email" id="email" name="email" class="w-full px-3 py-2 border rounded focus:outline-none focus:ring-indigo-500 focus:border-indigo-500" required>
+            </div>
+
+            <div class="mb-4">
+                <label for="api_key" class="block font-semibold text-gray-600">Enter your NSRDB API key:</label>
+                <input type="text" id="api_key" name="api_key" class="w-full px-3 py-2 border rounded shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" required>
+            </div>
+
+            <div class="mb-4">
+                <label for="latitude" class="block font-semibold text-gray-600">Enter the latitude:</label>
+                <input type="text" id="latitude" name="latitude" class="w-full px-3 py-2 border rounded focus:outline-none focus:ring-indigo-500 focus:border-indigo-500" required>
+            </div>
+
+            <div class="mb-4">
+                <label for="longitude" class="block font-semibold text-gray-600">Enter the longitude:</label>
+                <input type="text" id="longitude" name="longitude" class="w-full px-3 py-2 border rounded focus:outline-none focus:ring-indigo-500 focus:border-indigo-500" required>
+            </div>
+
+            <div class="mt-4">
+                <button type="submit" class="bg-gray-800 text-white px-4 py-2 rounded cursor-pointer hover:bg-gray-600">Submit</button>
+            </div>
+        </form>
+    </div>
+
+    <footer class="bg-gray-800 text-white py-4 text-center">
+      <p>&copy; 2023 SOLAR-TK. All rights reserved.</p>
+      <p>Contact us at LASS@gmail.com</p>
+      <p><a href="#" class="underline">LASS Website</a></p>
+    </footer>
+
+  </body>
+</html>
