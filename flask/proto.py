@@ -21,7 +21,7 @@ if not os.path.exists(SOLAR_DATA_DIR):
     os.mkdir(SOLAR_DATA_DIR)
 
 BASE_URL = "https://developer.nrel.gov/api/nsrdb/v2/solar/psm3-5min-download.json?"
-DOWNLOAD_URL = []
+DOWNLOAD_URL = {}
 
 class SolarTKMaxPowerCalculator:
     def __init__(self, tilt, orientation, dc_system_size, k=1.0, c=0.05, t_baseline=25):
@@ -175,12 +175,10 @@ def generate_csv_url(csv_path):
     return F"{TEMP_DIR}/{csv_path}"
 
 # (your Flask routes)
-
 email = ""
 api_key = ""
 latitude = ""
 longitude = ""
-
 
 @app.route('/')
 def input_coordinates():
@@ -217,13 +215,13 @@ def get_available_datasets():
         # Extract dataset options from the response and turn into an array of dataset names
         # as you extact the years you should also give eacch year its respective urls as a key value pair (just an idea)
         dataset_options = [dataset['displayName'] for dataset in data.get('outputs', [])]
-        years = [dataset['availableYears'] for dataset in data.get('outputs', [])]
+        years = [dataset['availableYears'] for dataset in data.get('outputs')]
         intervals = [dataset['availableIntervals'] for dataset in data.get('outputs', [])]
 
-        for dataset in data.get('outputs', []):
-            # Each dataset may have multiple links for different years and intervals
-            for link_info in dataset.get('links', []):
-                DOWNLOAD_URL.append(link_info['link'])
+        for dataset in data.get('outputs'):
+            if isinstance(dataset['availableYears'][0], int):
+                for link in dataset['links']:
+                    DOWNLOAD_URL[link['year']] = link['link']
         
         return render_template('index.html', dataset_options=dataset_options, years=years, intervals=intervals)
     
@@ -248,12 +246,13 @@ def execute_script():
         attributes += "ghi,dni,solar_zenith_angle,air_temperature"
 
         #if you are choosing multiple years then the link for each year will need to be adjusted
-        for year, i in enumerate(years):
+        for year in years:
             year = str(year)
             year.replace(" ", "")
             # Generate download URL for each year
+            url = DOWNLOAD_URL[year]
 
-            download_url = fetch_download_url(DOWNLOAD_URL[i], attributes, interval, latitude, longitude, year)
+            download_url = fetch_download_url(url, attributes, interval, latitude, longitude, year)
             zip_file_path = os.path.join(TEMP_DIR, "solar_data_{}.zip".format(year))
             download_file(download_url, zip_file_path)
             unzip_file(zip_file_path, SOLAR_DATA_DIR)
